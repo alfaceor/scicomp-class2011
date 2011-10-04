@@ -36,7 +36,7 @@ int main( void ) {
         u[N-1-i*DIM] = i;
     }
 
-
+/*
     printf("****Print u_old matrix****\n");
     // display the results
     for (int i=0; i<DIM; i++) {
@@ -45,7 +45,7 @@ int main( void ) {
         }
         printf("----\n");
     }
-
+*/
     // copy the array 'u' to the GPU
     HANDLE_ERROR( cudaMemcpy( dev_u, u, N * sizeof(float),
                               cudaMemcpyHostToDevice ) );
@@ -90,7 +90,7 @@ int main( void ) {
         for (int j=0; j<DIM; j++) {
             printf( "%f\t", u_new[i*DIM+j] );
         }
-        printf("----\n");
+        printf("\n");
     }
 
     // free the memory allocated on the GPU
