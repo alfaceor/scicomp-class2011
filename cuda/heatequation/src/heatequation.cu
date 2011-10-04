@@ -13,9 +13,10 @@ int main( int argc, char *argv ) {
        return 1;
     }
     int steps_2=atoi(argv[1]);  // time 2 time steps
+    int steps=1000;
     float u[N], u_new[N];   // N must be a perfect square number
     float *dev_u, *dev_u_new;
-    float c=0.01;
+    float c=0.001;
 
     struct timeval tempo1, tempo2;
     
@@ -44,14 +45,14 @@ int main( int argc, char *argv ) {
     }
 
 /*
-    printf("****Print u_old matrix****\n");
-    // display the results
-    for (int i=0; i<DIM; i++) {
-        for (int j=0; j<DIM; j++) {
-            printf( "%f\t", u[i*DIM+j] );
-        }
-        printf("----\n");
-    }
+//    printf("****Print u_old matrix****\n");
+//    // display the results
+//    for (int i=0; i<DIM; i++) {
+//        for (int j=0; j<DIM; j++) {
+//            printf( "%f\t", u[i*DIM+j] );
+//        }
+//        printf("----\n");
+//    }
 */
     // copy the array 'u' to the GPU
     HANDLE_ERROR( cudaMemcpy( dev_u, u, N * sizeof(float),
@@ -59,11 +60,11 @@ int main( int argc, char *argv ) {
 
 //    printf("Press 'Enter' to show the elapsed time: ");
     gettimeofday(&tempo1, NULL);
-    for (int i=0;i<steps_2;i++){
-
-        new_time_blocks<<<N,1>>>( dev_u, dev_u_new, c);
-        new_time_blocks<<<N,1>>>( dev_u_new, dev_u, c);
-        //new_time_threads<<<1,N>>>( dev_u, dev_u_new, c );
+    for (int i=0;i<steps;i++){
+        if (i%2==0)
+            new_time_blocks<<<N,1>>>( dev_u, dev_u_new, c);
+        else
+            new_time_blocks<<<N,1>>>( dev_u_new, dev_u, c);
     }
 
 //
@@ -91,7 +92,7 @@ int main( int argc, char *argv ) {
     HANDLE_ERROR( cudaMemcpy( u_new, dev_u_new, N * sizeof(float),
                               cudaMemcpyDeviceToHost ) );
     
-    printf("****Print u_new matrix****\n");
+//    printf("****Print u_new matrix****\n");
     // display the results
     for (int i=0; i<DIM; i++) {
         for (int j=0; j<DIM; j++) {

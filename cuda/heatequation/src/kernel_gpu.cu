@@ -17,7 +17,7 @@ __global__ void new_time_blocks(float *u, float *u_new,float c) {
         }else if(tid%DIM==0 || (tid+1)%DIM==0){ //Vertical Boundary
             u_new[tid]=u[tid];
         }else{  // make a time step
-        u_new[tid] = u[tid]+c*(u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid]);
+            u_new[tid] = u[tid]+c*(u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid]);
         }
         
     }

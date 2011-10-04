@@ -27,5 +27,4 @@ static void HandleError( cudaError_t err,
 // Functions for add_loop_gpu
 __global__ void new_time_blocks(float *u, float *u_new,float c);
 __global__ void new_time_threads(float *u, float *u_new,float c);
-#define M   100000
-#define W   101 // MUST be a odd number (2n+1)
+
