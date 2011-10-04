@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <sys/time.h>
 
+// Matrix dimension DIM to array dimension N
+#define DIM 3
+#define N   DIM*DIM
+
 static void HandleError( cudaError_t err,
                          const char *file,
                          int line ) {
@@ -19,7 +23,6 @@ static void HandleError( cudaError_t err,
                                     __FILE__, __LINE__ ); \
                             exit( EXIT_FAILURE );}}
 
-#define N   100000
 
 // Functions for add_loop_gpu
 __global__ void new_time_blocks(float *u, float *u_new,float c);
