@@ -24,10 +24,14 @@ int main( void ) {
     HANDLE_ERROR( cudaMalloc( (void**)&dev_u_new, N * sizeof(float) ) );
 
     // fill the array 'u' on the CPU
-    for (int i=0; i<N; i++) {
-		//TODO: insert boundary conditions
-        u[i] = 0;
+    for (int i=0; i<DIM; i++) {
+	// Horizontal boundary conditions
+        u[i]       = i;
+        u[i*DIM]   = i;
+        u[N-i]     = i;
+        u[N-i*DIM] = i;
     }
+
     printf("****Print u_old matrix****\n");
     // display the results
     for (int i=0; i<DIM; i++) {
@@ -44,7 +48,9 @@ int main( void ) {
 //    printf("Press 'Enter' to show the elapsed time: ");
     gettimeofday(&tempo1, NULL);
     for (int i=0;i<100;i++){
+
         new_time_blocks<<<N,1>>>( dev_u, dev_u_new, c);
+        new_time_blocks<<<N,1>>>( dev_u_new, dev_u, c);
         //new_time_threads<<<1,N>>>( dev_u, dev_u_new, c );
     }
 
