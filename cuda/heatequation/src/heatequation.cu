@@ -8,7 +8,7 @@ Necesito las siguientes matrices u_new, u_old, m
 int main( void ) {
     float u[N], u_new[N];   // N must be a perfect square number
     float *dev_u, *dev_u_new;
-	float c=0.1;
+	float c=0.01;
 
     struct timeval tempo1, tempo2;
     
@@ -24,19 +24,24 @@ int main( void ) {
     HANDLE_ERROR( cudaMalloc( (void**)&dev_u_new, N * sizeof(float) ) );
 
     // fill the array 'u' on the CPU
+    // initial condition
+    for (int i=0; i<N; i++){
+        u[i]=0;
+    }
     for (int i=0; i<DIM; i++) {
-	// Horizontal boundary conditions
+    // Horizontal boundary conditions
         u[i]       = i;
         u[i*DIM]   = i;
-        u[N-i]     = i;
-        u[N-i*DIM] = i;
+        u[N-1-i]     = i;
+        u[N-1-i*DIM] = i;
     }
+
 
     printf("****Print u_old matrix****\n");
     // display the results
     for (int i=0; i<DIM; i++) {
         for (int j=0; j<DIM; j++) {
-            printf( "%f\n", u[i*DIM+j] );
+            printf( "%f\t", u[i*DIM+j] );
         }
         printf("----\n");
     }
@@ -47,10 +52,10 @@ int main( void ) {
 
 //    printf("Press 'Enter' to show the elapsed time: ");
     gettimeofday(&tempo1, NULL);
-    for (int i=0;i<100;i++){
+    for (int i=0;i<1;i++){
 
         new_time_blocks<<<N,1>>>( dev_u, dev_u_new, c);
-        new_time_blocks<<<N,1>>>( dev_u_new, dev_u, c);
+//        new_time_blocks<<<N-1,1>>>( dev_u_new, dev_u, c);
         //new_time_threads<<<1,N>>>( dev_u, dev_u_new, c );
     }
 
@@ -83,7 +88,7 @@ int main( void ) {
     // display the results
     for (int i=0; i<DIM; i++) {
         for (int j=0; j<DIM; j++) {
-            printf( "%f\n", u_new[i*DIM+j] );
+            printf( "%f\t", u_new[i*DIM+j] );
         }
         printf("----\n");
     }

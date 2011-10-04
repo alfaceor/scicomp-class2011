@@ -6,11 +6,21 @@ Generate the new u in the next time step using blocks
 __global__ void new_time_blocks(float *u, float *u_new,float c) {
     // XXX: Because the boundary conditions, this must started in 1
     // u_[1], that is the reason why i added +1
-    int tid = threadIdx.x+1;  // this thread handles the data at its thread id
+    int tid = blockIdx.x;  // this thread handles the data at its thread id
 	// The array is a matrix (N+1)*(N)
 	// Just chain the values of u in the interval 1,rowdim
-    if (tid < N)
-        u_new[tid] = u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid];
+
+    if (tid < N){
+        // If tid belows to the boundary don't make anything(fixed boundary cond)
+        if(tid<DIM || tid > N-1-DIM){
+            u_new[tid]=u[tid];
+        }else{  // make a time step
+            u_new[tid] = 10+u[tid];
+//        u_new[tid] = u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid];
+        }
+        
+
+    }
 }
 
 /**
