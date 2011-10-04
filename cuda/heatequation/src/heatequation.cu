@@ -3,12 +3,19 @@ Necesito las siguientes matrices u_new, u_old, m
 */
 
 #include "kernel_gpu.cuH"
+#include <stdio.h>
+#include <stdlib.h>
 
+int main( int argc, char *argv ) {
 
-int main( void ) {
+    if(argc!=2){
+       printf("usage: heatequation <number_of_steps*2>\n");
+       return 1;
+    }
+    int steps_2=atoi(argv[1]);  // time 2 time steps
     float u[N], u_new[N];   // N must be a perfect square number
     float *dev_u, *dev_u_new;
-	float c=0.01;
+    float c=0.01;
 
     struct timeval tempo1, tempo2;
     
@@ -52,7 +59,7 @@ int main( void ) {
 
 //    printf("Press 'Enter' to show the elapsed time: ");
     gettimeofday(&tempo1, NULL);
-    for (int i=0;i<100;i++){
+    for (int i=0;i<steps_2;i++){
 
         new_time_blocks<<<N,1>>>( dev_u, dev_u_new, c);
         new_time_blocks<<<N,1>>>( dev_u_new, dev_u, c);
