@@ -2,7 +2,7 @@
 #include <sys/time.h>
 
 // Matrix dimension DIM to array dimension N
-#define DIM 3
+#define DIM 10
 #define N   DIM*DIM
 
 static void HandleError( cudaError_t err,
