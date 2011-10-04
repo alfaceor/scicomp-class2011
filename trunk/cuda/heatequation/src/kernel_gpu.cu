@@ -12,14 +12,14 @@ __global__ void new_time_blocks(float *u, float *u_new,float c) {
 
     if (tid < N){
         // If tid belows to the boundary don't make anything(fixed boundary cond)
-        if(tid<DIM || tid > N-1-DIM){
+        if(tid<DIM || tid > N-1-DIM){           // Horizontal boundary
+            u_new[tid]=u[tid];
+        }else if(tid%DIM==0 || (tid+1)%DIM==0){ //Vertical Boundary
             u_new[tid]=u[tid];
         }else{  // make a time step
-            u_new[tid] = 10+u[tid];
-//        u_new[tid] = u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid];
+        u_new[tid] = u[tid]+c*(u[tid+1]+u[tid-1]+u[tid-DIM]+u[tid+DIM]-4*u[tid]);
         }
         
-
     }
 }
 
