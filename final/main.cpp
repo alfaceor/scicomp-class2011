@@ -5,10 +5,10 @@ e-mail: alfaceor@gmail.com
 creative commons
 */
 
-
 #include <iostream>
 using namespace std;
 
+#define DIM 3
 #define N 2
 
 void print_array(double arg[],int length) {
@@ -21,9 +21,9 @@ void print_array(double arg[],int length) {
 int main(){
 
 	// Initialize variables
-	double r[N] = {0,10};	// position
-	double v[N] = {0,0};		// velocity
-	double a[N] = {1,0};							// aceleration
+	double r[N][DIM]= {{0,0,0},{0,10,0}};	// position
+	double v[N][DIM]= {{0,0,0},{0,0,0}};		// velocity
+	double a[N][DIM]= {{0,0,0},{0,0,0}};	// aceleration
 	// System properties
 	double k[N-1] = {1};		// hooke constant
 	double l[N-1] = {5};	// natural length
@@ -37,27 +37,37 @@ int main(){
 	double dt=(t_f - t_i)/n_steps;
 	
 	// TODO: generalize this, and make a function.
-	while(t_f>=t_i){
 	//---> BEGIN _Integrator leapfrog_
-	//	int i=0;
+	int n=1;
+	while(t_f>=t_i){
+	cout<<"MODEL\t"<< n <<"\n";
 		for(int i=0;i<N;i++){
-			// calculate the aceleration (force) over the particle
-			if(i==0)
-				a[i]=k[i]*(r[i+1]-r[i]-l[i])/mass[i];
+			if (i==0)
+				cout <<"ATOM\t"<<(i+1) << "\t"<<"CA\t"<<"MET A 1\t";
 			else
-				a[i]=-k[i-1]*(r[i]-r[i-1]-l[i-1])/mass[i];	
-			// generate the new velocity
-			v[i] += a[i] * dt;
-			// actualize the position
-			r[i] += v[i]*dt;  // where v[i] is v_(t+1/2 * dt)
+				cout <<"ATOM\t"<<(i+1) << "\t"<<"C\t"<<"MET A 1\t";
+
+			for (int d=0;d<DIM;d++){
+				// calculate the aceleration (force) over the particle
+				
+				if(d==0)
+					a[i][d] =  k[0]*(r[i+1][d]-r[i][d]-l[0])/mass[0];
+				//else
+					//a[i][d] = -k[0]*(r[i][d]-r[i-1][d]-l[0])/mass[0];	
+				// generate the new velocity
+				v[i][d] += a[i][d] * dt;
+				// actualize the position
+				r[i][d] += v[i][d] * dt;  // where v[i] is v_(t+1/2 * dt)
+				cout << r[i][d] << "\t";
+			}
+			if(i==0)	
+				cout<<"1.00\t0.43\tC"<<endl;
+			else
+				cout<<"1.00\t0.41\tC"<<endl;
 		}
-	//---> END _Integrator leapfrog_
-		cout<<t_i<<"\t";
-		print_array(r,N);
+		cout<<"ENDMDL"<<endl;
 		t_i  += dt;
+		n++;
 	}
-	
-
-//Print position and velocities.
-
+	//---> END _Integrator leapfrog_
 }
