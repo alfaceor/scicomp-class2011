@@ -4,12 +4,22 @@ author: Carlos Olivares
 e-mail: alfaceor@gmail.com
 creative commons
 */
-
-#include <iostream>
-using namespace std;
+#include <stdio.h>
+//#include <iostream>
+//using namespace std;
 
 #define DIM 3
-#define N 2
+#define N 2  // Number of particles
+
+// Printing PDB file
+const char atom_line[]=
+  "ATOM  %5d%*1c";
+
+void print_pdb_atom_line(){
+	char line[81];
+	sprintf(line,atom_line,5,'C');
+	cout<<line<<endl;
+}
 
 void print_array(double arg[],int length) {
 	for (int i=0; i<length; i++){
@@ -70,4 +80,5 @@ int main(){
 		n++;
 	}
 	//---> END _Integrator leapfrog_
+	print_pdb_atom_line();
 }
