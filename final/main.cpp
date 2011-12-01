@@ -16,13 +16,14 @@ license: creative commons
 int main(){
 
 	// Initialize variables
-	double r[N][DIM]= {{0,0,0},{0,10,0},{0,15,0},{0,17.5,0}};	// position
+	double r[N][DIM]= {{0,0,0},{0,10,0},{0,20,0},{0,30,0}};	// position
 	double v[N][DIM]= {{0,0,0},{0,0,0},{0,0,0},{0,0,0}};		// velocity
 	double a[N][DIM]= {{0,0,0},{0,0,0},{0,0,0},{0,0,0}};	// aceleration
 	// System properties
-	double k[N-1] = {1,1,1};		// hooke constant
+	double mass[N] = {1,1,1,1};
+	double k[N-1] = {100,100,100};		// hooke constant
 	double l[N-1] = {5,5,5};		// natural length
-	double mass[N] = {1,1,1};
+
 
 	// auxiliar variables
 	double xi[N-1][DIM];			// spring deformation vector
