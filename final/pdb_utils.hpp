@@ -45,21 +45,21 @@ HETATM 8242  O4  SO4 A2001      10.932 -15.073 -13.100  1.00 49.91           O
 
 #include <stdio.h>
 
-void print_pdb_line(int serial, double x, double y, double z){
+void print_pdb_line(int serial, double x, double y, double z,char *resName){
 	char recordname[]="HETATM";	// 1 - 6        Record name    "HETATM"
 //	int  serial    =1;						// 7 - 11       Integer   Atom serial number.
 	char name    []="    ";		//13 - 16       Atom      Atom name.
 	char altLoc  []=" ";				//17            character Alternate location indicator.
-	char resName []=" MG";			//18 - 20       Residue name  Residue name.
+//	char resName []=" MG";			//18 - 20       Residue name  Residue name.
 	char chainID []="A";				//22            character     Chain identifier.
 	char resSeq  []="1";
 	char iCode   []=" ";
 //	double x       = 13.872;
 //	double y       = -2.555;
 //	double z       = -29.045;
-	double occupancy =1.00;
-	double tempFactor=27.36;
-	char element []="MG";
+	double occupancy;		// =1.00;
+	double tempFactor;	//=27.36;
+	char element []="  ";
 	char charge  []="  ";
 
 	char pdb_line[80];
