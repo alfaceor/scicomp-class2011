@@ -1,5 +1,8 @@
 /**
-
+Description: write a pdb file for a HETATM
+author: Carlos Olivares
+e-mail: alfaceor@gmail.com
+license: creative commons
 Reference: http://www.wwpdb.org/documentation/format33/sect9.html#HETATM
 
 COLUMNS       DATA  TYPE     FIELD         DEFINITION
